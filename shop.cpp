@@ -72,4 +72,26 @@ public:
         delete[] products;
         cout << "Shop destroyed\n";
     }
+
+    void buyProduct(int id, int qty) {
+    bool found = false;
+
+    for (int i = 0; i < count; i++) {
+        if (i == id) {   // temporary logic (index-based)
+            found = true;
+
+            if (products[i].getQuantity() >= qty) {
+                products[i].setQuantity(products[i].getQuantity() - qty);
+                cout << "Purchase successful!\n";
+            } else {
+                cout << "Not enough stock!\n";
+            }
+            break;
+        }
+    }
+
+    if (!found) {
+        cout << "Product not found!\n";
+    }
+}
 };

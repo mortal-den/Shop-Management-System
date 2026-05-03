@@ -1,5 +1,10 @@
+#include <iostream>
 #include "User.h"
-#include "Exception.h"   // ✅ add this
+#include "Exception.h"
+#include "Shop.cpp"   // ✅ connect Shop
+
+using namespace std;
+
 class Customer : public User {
 public:
     Customer(string name = "Customer") : User(name) {}
@@ -15,19 +20,37 @@ public:
     }
 
     void performTask() {
-        try {
-            int quantity;
-            cout << "Enter quantity to purchase: ";
-            cin >> quantity;
+        static Shop shop;   // ✅ shared shop
 
-            // Throw exception if invalid input
-            if (quantity < 0) {
-                throw ShopException("Quantity cannot be negative");
+        try {
+            int choice;
+            cout << "Enter your choice: ";
+            cin >> choice;
+
+            if (choice < 1 || choice > 2) {
+                throw ShopException("Invalid menu choice");
             }
 
-            cout << "Purchase successful for quantity: " << quantity << endl;
+            if (choice == 1) {
+                shop.displayProducts();   // ✅ view products
+            }
+            else if (choice == 2) {
+                int id, qty;
+
+                cout << "Enter product ID: ";
+                cin >> id;
+
+                cout << "Enter quantity: ";
+                cin >> qty;
+
+                if (qty < 0) {
+                    throw ShopException("Quantity cannot be negative");
+                }
+
+                shop.buyProduct(id, qty);   // ✅ buy product
+            }
         }
-        catch (ShopException e) {
+        catch (ShopException &e) {   // ✅ better catch
             e.showError();
         }
     }
