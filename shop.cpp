@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Product.cpp"
+#include "Bill.cpp" 
 using namespace std;
 
 class Shop {
@@ -83,6 +84,38 @@ public:
             if (products[i].getQuantity() >= qty) {
                 products[i].setQuantity(products[i].getQuantity() - qty);
                 cout << "Purchase successful!\n";
+            } else {
+                cout << "Not enough stock!\n";
+            }
+            break;
+        }
+    }
+
+    if (!found) {
+        cout << "Product not found!\n";
+    }
+}
+void buyProduct(int id, int qty) {
+    if (qty <= 0) {
+        cout << "Invalid quantity!\n";
+        return;
+    }
+
+    bool found = false;
+
+    for (int i = 0; i < count; i++) {
+        if (products[i].getId() == id) {
+            found = true;
+
+            if (products[i].getQuantity() >= qty) {
+
+                Bill bill;   // create bill
+                bill.addToBill(products[i], qty);
+
+                products[i].setQuantity(products[i].getQuantity() - qty);
+
+                cout << "Purchase successful!\n";
+                bill.displayBill();   // show bill
             } else {
                 cout << "Not enough stock!\n";
             }
