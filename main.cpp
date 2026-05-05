@@ -9,7 +9,7 @@ int main() {
     int choice;
     string name;
 
-    while (true) {   // ✅ loop starts
+    while (true) {  
 
         cout << "\n===== Shop Management System =====\n";
         cout << "1. Admin\n";
