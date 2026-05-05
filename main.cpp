@@ -6,6 +6,8 @@
 
 using namespace std;
 
+//Main function to run the shop management system
+
 int main() {
     int choice;
     string name;
