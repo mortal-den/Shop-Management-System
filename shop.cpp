@@ -1,3 +1,6 @@
+#ifndef SHOP_H
+#define SHOP_H
+
 #include <iostream>
 #include "Product.cpp"
 #include "Bill.cpp" 
@@ -128,3 +131,4 @@ void buyProduct(int id, int qty) {
     }
 }
 };
+#endif
