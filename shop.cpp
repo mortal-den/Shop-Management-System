@@ -3,7 +3,8 @@
 
 #include <iostream>
 #include "Product.cpp"
-#include "Bill.cpp" 
+#include "Bill.cpp"
+
 using namespace std;
 
 class Shop {
@@ -53,7 +54,7 @@ public:
         bool found = false;
 
         for (int i = 0; i < count; i++) {
-            if (id == i) {  // simple logic (can improve later)
+            if (products[i].getId() == id) {   // ✅ correct logic
                 found = true;
 
                 for (int j = i; j < count - 1; j++) {
@@ -71,64 +72,46 @@ public:
         }
     }
 
+    // Buy Product + Billing
+    void buyProduct(int id, int qty) {
+        if (qty <= 0) {
+            cout << "Invalid quantity!\n";
+            return;
+        }
+
+        bool found = false;
+
+        for (int i = 0; i < count; i++) {
+            if (products[i].getId() == id) {   // ✅ correct ID matching
+                found = true;
+
+                if (products[i].getQuantity() >= qty) {
+
+                    Bill bill;   // create bill
+                    bill.addToBill(products[i], qty);
+
+                    products[i].setQuantity(products[i].getQuantity() - qty);
+
+                    cout << "Purchase successful!\n";
+                    bill.displayBill();   // show bill
+
+                } else {
+                    cout << "Not enough stock!\n";
+                }
+                break;
+            }
+        }
+
+        if (!found) {
+            cout << "Product not found!\n";
+        }
+    }
+
     // Destructor
     ~Shop() {
         delete[] products;
         cout << "Shop destroyed\n";
     }
-
-    void buyProduct(int id, int qty) {
-    bool found = false;
-
-    for (int i = 0; i < count; i++) {
-        if (i == id) {   // temporary logic (index-based)
-            found = true;
-
-            if (products[i].getQuantity() >= qty) {
-                products[i].setQuantity(products[i].getQuantity() - qty);
-                cout << "Purchase successful!\n";
-            } else {
-                cout << "Not enough stock!\n";
-            }
-            break;
-        }
-    }
-
-    if (!found) {
-        cout << "Product not found!\n";
-    }
-}
-void buyProduct(int id, int qty) {
-    if (qty <= 0) {
-        cout << "Invalid quantity!\n";
-        return;
-    }
-
-    bool found = false;
-
-    for (int i = 0; i < count; i++) {
-        if (products[i].getId() == id) {
-            found = true;
-
-            if (products[i].getQuantity() >= qty) {
-
-                Bill bill;   // create bill
-                bill.addToBill(products[i], qty);
-
-                products[i].setQuantity(products[i].getQuantity() - qty);
-
-                cout << "Purchase successful!\n";
-                bill.displayBill();   // show bill
-            } else {
-                cout << "Not enough stock!\n";
-            }
-            break;
-        }
-    }
-
-    if (!found) {
-        cout << "Product not found!\n";
-    }
-}
 };
+
 #endif
