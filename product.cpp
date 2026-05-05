@@ -1,7 +1,6 @@
 #ifndef PRODUCT_H
 #define PRODUCT_H
 
-
 #include <iostream>
 #include <string>
 using namespace std;
@@ -46,29 +45,34 @@ public:
         cout << "Quantity: " << quantity << endl;
     }
 
-    // Input Function
+    // ✅ FIXED Input Function
     void input() {
         cout << "Enter ID: ";
         cin >> id;
+
+        cin.ignore();  // ✅ clear leftover newline
+
         cout << "Enter Name: ";
-        cin >> name;
+        getline(cin, name);  // ✅ supports spaces
+
         cout << "Enter Price: ";
         cin >> price;
+
         cout << "Enter Quantity: ";
         cin >> quantity;
     }
 
-    // 🔥 Getter for ID
+    // Getter for ID
     int getId() const {
         return id;
     }
 
-    // 🔥 Getter for Quantity
+    // Getter for Quantity
     int getQuantity() const {
         return quantity;
     }
 
-    // 🔥 Setter for Quantity
+    // Setter for Quantity
     void setQuantity(int q) {
         quantity = q;
     }
@@ -83,9 +87,9 @@ public:
         return this->price + p.price;
     }
 
-    // Destructor
+    // 🔧 OPTIONAL: Cleaner Destructor (recommended)
     ~Product() {
-        cout << "Product destroyed\n";
+        // removed spam output
     }
 };
 

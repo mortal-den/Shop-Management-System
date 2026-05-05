@@ -1,13 +1,17 @@
 #include <iostream>
 #include "User.h"
 #include "Exception.h"
-#include "Shop.cpp"   // ✅ connect Shop
+#include "Shop.cpp"
 
 using namespace std;
 
 class Customer : public User {
+private:
+    Shop* shop;   // ✅ pointer to shared shop
+
 public:
-    Customer(string name = "Customer") : User(name) {}
+    // ✅ FIXED constructor
+    Customer(string name, Shop* s) : User(name), shop(s) {}
 
     void login() {
         cout << "Customer " << username << " logged in.\n";
@@ -20,8 +24,6 @@ public:
     }
 
     void performTask() {
-        static Shop shop;   // ✅ shared shop
-
         try {
             int choice;
             cout << "Enter your choice: ";
@@ -32,7 +34,7 @@ public:
             }
 
             if (choice == 1) {
-                shop.displayProducts();   // ✅ view products
+                shop->displayProducts();   // ✅ shared shop
             }
             else if (choice == 2) {
                 int id, qty;
@@ -47,10 +49,10 @@ public:
                     throw ShopException("Quantity cannot be negative");
                 }
 
-                shop.buyProduct(id, qty);   // ✅ buy product
+                shop->buyProduct(id, qty);   // ✅ shared shop
             }
         }
-        catch (ShopException &e) {   // ✅ better catch
+        catch (ShopException &e) {
             e.showError();
         }
     }

@@ -1,13 +1,17 @@
 #include <iostream>
 #include "User.h"
 #include "Exception.h"
-#include "Shop.cpp"   // ✅ include Shop
+#include "Shop.cpp"
 
 using namespace std;
 
 class Admin : public User {
+private:
+    Shop* shop;
+
 public:
-    Admin(string name = "Admin") : User(name) {}
+    // ✅ Correct constructor
+    Admin(string name, Shop* s) : User(name), shop(s) {}
 
     void login() {
         cout << "Admin " << username << " logged in.\n";
@@ -21,32 +25,29 @@ public:
     }
 
     void performTask() {
-        static Shop shop;   // ✅ persistent shop object
-
         try {
             int choice;
             cout << "Enter your choice: ";
             cin >> choice;
 
-            // Validate choice
             if (choice < 1 || choice > 3) {
                 throw ShopException("Invalid menu choice");
             }
 
             if (choice == 1) {
-                shop.addProduct();   // ✅ real function
+                shop->addProduct();
             }
             else if (choice == 2) {
                 int id;
-                cout << "Enter product ID to delete: ";
+                cout << "Enter product ID: ";
                 cin >> id;
-                shop.deleteProduct(id);   // ✅ real function
+                shop->deleteProduct(id);
             }
             else if (choice == 3) {
-                shop.displayProducts();   // ✅ real function
+                shop->displayProducts();
             }
         }
-        catch (ShopException &e) {   // ✅ better catch
+        catch (ShopException &e) {
             e.showError();
         }
     }
