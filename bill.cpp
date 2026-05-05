@@ -1,3 +1,6 @@
+#ifndef BILL_H
+#define BILL_H
+
 #include <iostream>
 #include "Product.cpp"
 using namespace std;
@@ -31,3 +34,5 @@ public:
         return temp;
     }
 };
+
+#endif
